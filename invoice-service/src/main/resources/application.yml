@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: invoice-service
+  datasource:
+    url: jdbc:postgresql://localhost:5433/invoices
+    username: invoices
+    password: invoices
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: false
+  flyway:
+    enabled: true
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: invoice-service
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+app:
+  messaging:
+    mode: kafka
+    order-topic: order.events
+  idempotency:
+    cleanup-cron: "0 0 3 * * *"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+logging:
+  level:
+    root: INFO
