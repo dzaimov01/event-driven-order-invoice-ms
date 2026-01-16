@@ -3,6 +3,7 @@ package com.acme.orders.order;
 import com.acme.orders.order.application.OrderApplicationService;
 import com.acme.orders.order.domain.Money;
 import com.acme.orders.order.domain.OrderLine;
+import com.acme.orders.order.infrastructure.messaging.OutboxPublisher;
 import com.acme.orders.order.infrastructure.outbox.OutboxJpaRepository;
 import com.acme.orders.order.infrastructure.outbox.OutboxMessage;
 import org.junit.jupiter.api.Test;
@@ -45,6 +46,9 @@ class OutboxRetryIntegrationTest {
   @Autowired
   private OutboxJpaRepository outboxRepository;
 
+  @Autowired
+  private OutboxPublisher outboxPublisher;
+
   @Test
   void outboxRetriesWhenBrokerUnavailable() throws Exception {
     orderApplicationService.createOrder(UUID.randomUUID(), List.of(sampleLine()));
@@ -56,6 +60,7 @@ class OutboxRetryIntegrationTest {
   private boolean waitForRetry() throws InterruptedException {
     long deadline = System.currentTimeMillis() + Duration.ofSeconds(10).toMillis();
     while (System.currentTimeMillis() < deadline) {
+      outboxPublisher.publishPending();
       List<OutboxMessage> all = outboxRepository.findAll();
       if (!all.isEmpty() && all.get(0).getRetryCount() > 0) {
         return true;
