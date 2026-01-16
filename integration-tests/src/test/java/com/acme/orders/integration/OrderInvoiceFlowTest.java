@@ -198,6 +198,11 @@ class OrderInvoiceFlowTest {
     try (KafkaProducer<String, String> producer = new KafkaProducer<>(props)) {
       producer.send(new ProducerRecord<>("order.events", payload)).get();
       producer.send(new ProducerRecord<>("order.events", payload)).get();
+    } catch (InterruptedException ex) {
+      Thread.currentThread().interrupt();
+      throw new IllegalStateException("Interrupted while sending duplicate event", ex);
+    } catch (Exception ex) {
+      throw new IllegalStateException("Failed to send duplicate event", ex);
     }
   }
 
