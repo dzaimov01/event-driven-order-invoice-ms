@@ -28,4 +28,4 @@ jobs:
           java-version: 21
           cache: maven
       - name: Integration tests
-        run: mvn -B -pl integration-tests test
+        run: mvn -B -pl integration-tests -am test
