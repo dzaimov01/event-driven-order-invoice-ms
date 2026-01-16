@@ -22,6 +22,7 @@ import org.testcontainers.containers.KafkaContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
+import org.testcontainers.containers.wait.strategy.Wait;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -35,7 +36,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Testcontainers
 class OrderInvoiceFlowTest {
-  private static final KafkaContainer KAFKA = new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:7.5.1"));
+  private static final KafkaContainer KAFKA = new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:7.5.1"))
+      .waitingFor(Wait.forListeningPort())
+      .withStartupTimeout(Duration.ofMinutes(3));
   private static final PostgreSQLContainer<?> ORDER_DB = new PostgreSQLContainer<>("postgres:15-alpine")
       .withDatabaseName("orders")
       .withUsername("orders")
