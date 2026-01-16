@@ -41,13 +41,13 @@ class OrderInvoiceFlowTest {
       .withStartupTimeout(Duration.ofMinutes(3));
   private static final PostgreSQLContainer<?> ORDER_DB = new PostgreSQLContainer<>("postgres:15-alpine")
       .withDatabaseName("orders")
-      .withUsername("test")
-      .withPassword("test")
+      .withUsername("postgres")
+      .withPassword("postgres")
       .withEnv("POSTGRES_HOST_AUTH_METHOD", "trust");
   private static final PostgreSQLContainer<?> INVOICE_DB = new PostgreSQLContainer<>("postgres:15-alpine")
       .withDatabaseName("invoices")
-      .withUsername("test")
-      .withPassword("test")
+      .withUsername("postgres")
+      .withPassword("postgres")
       .withEnv("POSTGRES_HOST_AUTH_METHOD", "trust");
 
   private static ConfigurableApplicationContext orderContext;
@@ -65,10 +65,10 @@ class OrderInvoiceFlowTest {
         .properties(Map.of(
             "server.port", "0",
             "spring.datasource.url", ORDER_DB.getJdbcUrl(),
-            "spring.datasource.username", "test",
-            "spring.datasource.password", "test",
-            "spring.flyway.user", "test",
-            "spring.flyway.password", "test",
+            "spring.datasource.username", "postgres",
+            "spring.datasource.password", "postgres",
+            "spring.flyway.user", "postgres",
+            "spring.flyway.password", "postgres",
             "spring.kafka.bootstrap-servers", KAFKA.getBootstrapServers()
         ))
         .run();
@@ -77,10 +77,10 @@ class OrderInvoiceFlowTest {
         .properties(Map.of(
             "server.port", "0",
             "spring.datasource.url", INVOICE_DB.getJdbcUrl(),
-            "spring.datasource.username", "test",
-            "spring.datasource.password", "test",
-            "spring.flyway.user", "test",
-            "spring.flyway.password", "test",
+            "spring.datasource.username", "postgres",
+            "spring.datasource.password", "postgres",
+            "spring.flyway.user", "postgres",
+            "spring.flyway.password", "postgres",
             "spring.kafka.bootstrap-servers", KAFKA.getBootstrapServers()
         ))
         .run();
