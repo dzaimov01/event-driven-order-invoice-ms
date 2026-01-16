@@ -62,28 +62,26 @@ class OrderInvoiceFlowTest {
     INVOICE_DB.start();
 
     orderContext = new SpringApplicationBuilder(OrderServiceApplication.class)
-        .properties(Map.of(
-            "server.port", "0",
-            "spring.datasource.url", ORDER_DB.getJdbcUrl(),
-            "spring.datasource.username", "postgres",
-            "spring.datasource.password", "postgres",
-            "spring.flyway.user", "postgres",
-            "spring.flyway.password", "postgres",
-            "spring.kafka.bootstrap-servers", KAFKA.getBootstrapServers()
-        ))
-        .run();
+        .run(
+            "--server.port=0",
+            "--spring.datasource.url=" + ORDER_DB.getJdbcUrl(),
+            "--spring.datasource.username=postgres",
+            "--spring.datasource.password=postgres",
+            "--spring.flyway.user=postgres",
+            "--spring.flyway.password=postgres",
+            "--spring.kafka.bootstrap-servers=" + KAFKA.getBootstrapServers()
+        );
 
     invoiceContext = new SpringApplicationBuilder(InvoiceServiceApplication.class)
-        .properties(Map.of(
-            "server.port", "0",
-            "spring.datasource.url", INVOICE_DB.getJdbcUrl(),
-            "spring.datasource.username", "postgres",
-            "spring.datasource.password", "postgres",
-            "spring.flyway.user", "postgres",
-            "spring.flyway.password", "postgres",
-            "spring.kafka.bootstrap-servers", KAFKA.getBootstrapServers()
-        ))
-        .run();
+        .run(
+            "--server.port=0",
+            "--spring.datasource.url=" + INVOICE_DB.getJdbcUrl(),
+            "--spring.datasource.username=postgres",
+            "--spring.datasource.password=postgres",
+            "--spring.flyway.user=postgres",
+            "--spring.flyway.password=postgres",
+            "--spring.kafka.bootstrap-servers=" + KAFKA.getBootstrapServers()
+        );
   }
 
   @AfterAll
