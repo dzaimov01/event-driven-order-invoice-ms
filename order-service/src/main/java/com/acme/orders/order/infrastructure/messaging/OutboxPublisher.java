@@ -18,6 +18,7 @@ import org.apache.kafka.common.header.internals.RecordHeader;
 import java.time.Instant;
 import java.util.List;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.TimeUnit;
 
 @Component
 @ConditionalOnProperty(name = "app.messaging.mode", havingValue = "kafka", matchIfMissing = true)
@@ -51,7 +52,7 @@ public class OutboxPublisher {
         if (correlationId != null) {
           record.headers().add(new RecordHeader("X-Correlation-Id", correlationId.getBytes(StandardCharsets.UTF_8)));
         }
-        kafkaTemplate.send(record).get();
+        kafkaTemplate.send(record).get(5, TimeUnit.SECONDS);
         message.markPublished(Instant.now());
         log.info("outbox_published eventId={} aggregateId={} eventType={}",
             message.getId(), message.getAggregateId(), message.getEventType());
