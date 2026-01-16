@@ -69,6 +69,8 @@ class OrderInvoiceFlowTest {
             "--spring.datasource.password=postgres",
             "--spring.flyway.user=postgres",
             "--spring.flyway.password=postgres",
+            "--spring.flyway.enabled=false",
+            "--spring.jpa.hibernate.ddl-auto=create-drop",
             "--spring.kafka.bootstrap-servers=" + KAFKA.getBootstrapServers()
         );
 
@@ -80,6 +82,8 @@ class OrderInvoiceFlowTest {
             "--spring.datasource.password=postgres",
             "--spring.flyway.user=postgres",
             "--spring.flyway.password=postgres",
+            "--spring.flyway.enabled=false",
+            "--spring.jpa.hibernate.ddl-auto=create-drop",
             "--spring.kafka.bootstrap-servers=" + KAFKA.getBootstrapServers()
         );
   }
