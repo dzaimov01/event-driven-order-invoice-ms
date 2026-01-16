@@ -42,11 +42,13 @@ class OrderInvoiceFlowTest {
   private static final PostgreSQLContainer<?> ORDER_DB = new PostgreSQLContainer<>("postgres:15-alpine")
       .withDatabaseName("orders")
       .withUsername("orders")
-      .withPassword("orders");
+      .withPassword("orders")
+      .withEnv("POSTGRES_HOST_AUTH_METHOD", "trust");
   private static final PostgreSQLContainer<?> INVOICE_DB = new PostgreSQLContainer<>("postgres:15-alpine")
       .withDatabaseName("invoices")
       .withUsername("invoices")
-      .withPassword("invoices");
+      .withPassword("invoices")
+      .withEnv("POSTGRES_HOST_AUTH_METHOD", "trust");
 
   private static ConfigurableApplicationContext orderContext;
   private static ConfigurableApplicationContext invoiceContext;
