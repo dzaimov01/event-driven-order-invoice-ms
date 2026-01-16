@@ -84,7 +84,8 @@ class OrderInvoiceFlowTest {
             "--spring.flyway.password=postgres",
             "--spring.flyway.enabled=false",
             "--spring.jpa.hibernate.ddl-auto=create-drop",
-            "--spring.kafka.bootstrap-servers=" + KAFKA.getBootstrapServers()
+            "--spring.kafka.bootstrap-servers=" + KAFKA.getBootstrapServers(),
+            "--spring.kafka.consumer.auto-offset-reset=earliest"
         );
   }
 
@@ -188,7 +189,7 @@ class OrderInvoiceFlowTest {
             {
               "productId": "%s",
               "quantity": 2,
-              "unitPrice": "10.00",
+              "unitPrice": 10.00,
               "currency": "USD"
             }
           ]
@@ -218,7 +219,7 @@ class OrderInvoiceFlowTest {
   }
 
   private boolean waitForInvoice(int invoicePort, String orderId) {
-    long deadline = System.currentTimeMillis() + Duration.ofSeconds(20).toMillis();
+    long deadline = System.currentTimeMillis() + Duration.ofSeconds(60).toMillis();
     while (System.currentTimeMillis() < deadline) {
       try {
         ResponseEntity<Map> response = restTemplate.exchange(

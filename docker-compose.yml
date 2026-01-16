@@ -30,7 +30,7 @@ services:
       POSTGRES_USER: orders
       POSTGRES_PASSWORD: orders
     ports:
-      - "5432:5432"
+      - "5434:5432"
 
   invoice-db:
     image: postgres:15-alpine
@@ -70,4 +70,3 @@ services:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     ports:
       - "8081:8081"
-
