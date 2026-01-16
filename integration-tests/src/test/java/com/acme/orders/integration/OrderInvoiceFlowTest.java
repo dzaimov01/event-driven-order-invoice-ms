@@ -63,8 +63,10 @@ class OrderInvoiceFlowTest {
         .properties(Map.of(
             "server.port", "0",
             "spring.datasource.url", ORDER_DB.getJdbcUrl(),
-            "spring.datasource.username", ORDER_DB.getUsername(),
-            "spring.datasource.password", ORDER_DB.getPassword(),
+            "spring.datasource.username", "orders",
+            "spring.datasource.password", "orders",
+            "spring.flyway.user", "orders",
+            "spring.flyway.password", "orders",
             "spring.kafka.bootstrap-servers", KAFKA.getBootstrapServers()
         ))
         .run();
@@ -73,8 +75,10 @@ class OrderInvoiceFlowTest {
         .properties(Map.of(
             "server.port", "0",
             "spring.datasource.url", INVOICE_DB.getJdbcUrl(),
-            "spring.datasource.username", INVOICE_DB.getUsername(),
-            "spring.datasource.password", INVOICE_DB.getPassword(),
+            "spring.datasource.username", "invoices",
+            "spring.datasource.password", "invoices",
+            "spring.flyway.user", "invoices",
+            "spring.flyway.password", "invoices",
             "spring.kafka.bootstrap-servers", KAFKA.getBootstrapServers()
         ))
         .run();
